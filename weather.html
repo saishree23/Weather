@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weather App</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .weather-info {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Weather App</h1>
+            <div class="weather-info">
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <script>
+        window.addEventListener('load', () => {
+            const apiKey = '74bb058b1ae7838c7636dc3e1803e8d4'; // Replace 'YOUR_API_KEY' with your actual API key
+const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&appid=${apiKey}`;
+
+fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        const weatherInfo = document.querySelector('.weather-info');
+        weatherInfo.innerHTML = `
+            <h2>${data.name}, ${data.sys.country}</h2>
+            <p>${data.weather[0].description}</p>
+            <p>Temperature: ${data.main.temp}°C</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+            <p>Wind Speed: ${data.wind.speed} m/s</p>
+        `;
+    })
+    .catch(error => {
+        console.log('Error fetching weather data:', error);
+        const weatherInfo = document.querySelector('.weather-info');
+        weatherInfo.innerHTML = '<p>Failed to fetch weather data. Please try again later.</p>';
+    });
+
+        });
+    </script>
+    </body>
+</html>
